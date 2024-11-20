@@ -101,7 +101,7 @@ export default function BlogList({ articles, articlesCalled, onDelete, onUpdate 
                 </div>
             ))}
             {articlesCalled.map((article) => {
-                const imageUrl = `http://localhost:3002/images/posts/${article.image}`
+                const imageUrl = `http://localhost:3002/imgs/posts/${article.image}`
               return  (<div key={article.id} className="blog-item">
                     {editingId === article.id ? (
                         <div className="editing">
