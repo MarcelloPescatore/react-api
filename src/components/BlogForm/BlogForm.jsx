@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ListCheckbox from "./ListCheckbox/ListCheckbox"; // Assicurati che questo sia corretto
+import ListCheckbox from "./ListCheckbox/ListCheckbox"; 
 
 export default function BlogForm({ onSubmit }) {
     // Stato unificato con tutti i dati del form
