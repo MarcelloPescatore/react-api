@@ -1,0 +1,110 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#root{
+    max-width:70%;
+    margin: 2rem auto;
+}
+
+form {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    
+    .container-input{
+        display: flex;
+        gap: 2rem;
+    }
+
+    input, select, textarea{
+        flex-grow: 1;
+        padding: 0.25rem;
+        border-radius: 4px;
+        border: 0.5px solid rgb(37, 37, 240);
+    }
+    
+    button{
+        margin-left: 1rem;
+        padding: 0.35rem 1rem;
+        border: none;
+        background-color: rgb(37, 37, 240);
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    ul{
+        list-style: none;
+        input{
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+.list{
+    margin: 1rem 0;
+    
+    .blog-item{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem;
+        border: 0.5px solid  rgb(37, 37, 240);
+        border-radius: 4px;
+
+        input{
+            padding: 0.25rem;
+            border-radius: 4px;
+            border: 0.5px solid rgb(37, 37, 240);
+        }
+
+        img{
+            max-width: 100%;
+        }
+
+        .buttons{
+            button{
+                margin-right: 1rem;
+                margin-top: 1rem;
+                padding: 0.35rem 1rem;
+                border: none;
+                background-color: rgb(37, 37, 240);
+                color: white;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .publish{
+                background-color: green;
+            }
+        }
+
+        .editing{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+
+            input, select{
+                flex-grow: 1;
+                border: 0.5px solid rgb(224, 172, 0);
+            }
+
+            .buttons-edit{
+                button{
+                    margin-right: 1rem;
+                    padding: 0.35rem 1rem;
+                    border: none;
+                    background-color: rgb(224, 172, 0);
+                    color: black;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
