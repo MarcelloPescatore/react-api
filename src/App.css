@@ -56,6 +56,7 @@ form {
         padding: 1rem;
         border: 0.5px solid  rgb(37, 37, 240);
         border-radius: 4px;
+        margin-bottom: 1rem;
 
         input{
             padding: 0.25rem;

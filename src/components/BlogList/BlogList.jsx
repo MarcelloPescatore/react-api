@@ -1,32 +1,33 @@
 import React, { useState } from "react";
 
-export default function BlogList({ articles, onDelete, onUpdate }) {
+export default function BlogList({ articles, articlesCalled, onDelete, onUpdate }) {
     const [editingId, setEditingId] = useState(null);
-    const [editTitle, setEditTitle] = useState("");
-    const [editAuthor, setEditAuthor] = useState("");
-    const [editImg, setEditImg] = useState("");
-    const [editContent, setEditContent] = useState("");
-    const [editStatus, setEditStatus] = useState("");
+    const [editingData, setEditingData] = useState({});
 
     const handleEdit = (article) => {
-        // imposto l'articolo in modifica
+        // Imposto l'articolo in modifica e precompila i dati
         setEditingId(article.id);
-        // Precompila il titolo
-        setEditTitle(article.title);
-        // precompila l'autore
-        setEditAuthor(article.author);
-        // precompila l'img
-        setEditImg(article.img)
-        // precompila content
-        setEditContent(article.content)
-        // precompila status
-        setEditStatus(article.status)
+        setEditingData({
+            title: article.title,
+            author: article.author,
+            img: article.img,
+            content: article.content,
+            status: article.status
+        });
+    };
+
+    const handleChange = (field, value) => {
+        // Aggiorna il campo specifico nell'oggetto di modifica
+        setEditingData((prev) => ({
+            ...prev,
+            [field]: value
+        }));
     };
 
     const handleUpdate = (id) => {
-        // salva la modifica
-        onUpdate(id, { title: editTitle, author: editAuthor, img: editImg, content: editContent, status: editStatus });
-        // esce dalla modialità modifica
+        // Salva la modifica
+        onUpdate(id, editingData);
+        // Esce dalla modalità modifica
         setEditingId(null);
     };
 
@@ -46,25 +47,25 @@ export default function BlogList({ articles, onDelete, onUpdate }) {
                         <div className="editing">
                             <input
                                 type="text"
-                                value={editTitle}
-                                onChange={(e) => setEditTitle(e.target.value)}
+                                value={editingData.title}
+                                onChange={(e) => handleChange("title", e.target.value)}
                             />
                             <input
                                 type="text"
-                                value={editAuthor}
-                                onChange={(e) => setEditAuthor(e.target.value)}
+                                value={editingData.author}
+                                onChange={(e) => handleChange("author", e.target.value)}
                             />
                             <input
                                 type="text"
-                                value={editImg}
-                                onChange={(e) => setEditImg(e.target.value)}
+                                value={editingData.img}
+                                onChange={(e) => handleChange("img", e.target.value)}
                             />
                             <input
                                 type="text"
-                                value={editContent}
-                                onChange={(e) => setEditContent(e.target.value)}
+                                value={editingData.content}
+                                onChange={(e) => handleChange("content", e.target.value)}
                             />
-                            <select value={editStatus} onChange={(e) => setEditStatus(e.target.value)}>
+                            <select value={editingData.status} onChange={(e) => handleChange("status", e.target.value)}>
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
                             </select>
@@ -99,6 +100,67 @@ export default function BlogList({ articles, onDelete, onUpdate }) {
                     )}
                 </div>
             ))}
+            {articlesCalled.map((article) => {
+                const imageUrl = `http://localhost:3002/images/posts/${article.image}`
+              return  (<div key={article.id} className="blog-item">
+                    {editingId === article.id ? (
+                        <div className="editing">
+                            <input
+                                type="text"
+                                value={editingData.title}
+                                onChange={(e) => handleChange("title", e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                value={editingData.author}
+                                onChange={(e) => handleChange("author", e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                value={editingData.img}
+                                onChange={(e) => handleChange("img", e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                value={editingData.content}
+                                onChange={(e) => handleChange("content", e.target.value)}
+                            />
+                            <select value={editingData.status} onChange={(e) => handleChange("status", e.target.value)}>
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                            </select>
+                            <div className="buttons-edit">
+                                <button onClick={() => handleUpdate(article.id)}>Save</button>
+                                <button onClick={() => setEditingId(null)}>Cancel</button>
+                            </div>
+                        </ div>
+                    ) : (
+                        <>
+                            <h3>{article.title}</h3>
+                            <img src={imageUrl} alt="post image" />
+                            <p>Author: {article.author}</p>
+                            <p>Status: {article.status}</p>
+                            <p>Content: {article.content}</p>
+                            <p>Tags: {(article.tags || []).join(', ')}</p>
+
+
+
+                            <div className="buttons">
+                                <button onClick={() => handleEdit(article)}>Edit</button>
+                                {/* cancella la modifica */}
+                                <button onClick={() => onDelete(article.id)}>Delete</button>
+                                {/* Bottone per cambiare stato da 'draft' a 'published' */}
+                                {article.status === "draft" && (
+                                    <button className="publish" onClick={() => handlePublish(article.id)}>
+                                        Publish
+                                    </button>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )
+            })}
         </div>
     );
 };
