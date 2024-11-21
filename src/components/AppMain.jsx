@@ -28,59 +28,59 @@ export default function AppMain() {
   }, []);
 
   // chiamata per eliminare il post
-  const deleteArticleCalled = async (title) => {
-    try {
-      const response = await fetch(`http://localhost:3002/posts/${title}`,
-        {
-          method: "DELETE"
-        })
-
-      if (!response.ok) {
-        throw new Error('Errore nell\'eliminazione del post')
-      }
-
-      console.log(`Post con titolo "${title}" eliminato con successo.`);
-
-      // filtro gli articoli rimuovendo quello indicato
-      setArticlesCalled((prevArticles) => prevArticles.filter((article) => article.title !== title))
-    
-    } catch (error) {
-      console.error('Errore durante l\'eliminazione del post:', error);
-      alert('Errore durante l\'eliminazione del post. Riprova.');
-    }
-
+  const deleteArticleCalled = (title) => {
+    fetch(`http://localhost:3002/posts/${title}`, {
+      method: "DELETE"
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Errore nell\'eliminazione del post');
+        }
+  
+        console.log(`Post con titolo "${title}" eliminato con successo.`);
+  
+        // Filtro gli articoli rimuovendo quello indicato
+        setArticlesCalled((prevArticles) =>
+          prevArticles.filter((article) => article.title !== title)
+        );
+      })
+      .catch((error) => {
+        console.error('Errore durante l\'eliminazione del post:', error);
+        alert(`Errore durante l'eliminazione del post "${title}". Riprova.`);
+      });
   };
+  
 
   // Invia la richiesta PUT per aggiornare l'articolo
-  const updateArticle = async (title, updatedArticle) => {
-    try {
-        const response = await fetch(`http://localhost:3002/posts/${title}`, {
-            method: 'PUT', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedArticle), // Dati da aggiornare
-        });
-
+  const updateArticle = (title, updatedArticle) => {
+    fetch(`http://localhost:3002/posts/${title}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedArticle), // Dati da aggiornare
+    })
+      .then((response) => {
         if (!response.ok) {
-            throw new Error(`Errore nell'aggiornamento del post: ${response.statusText}`);
+          throw new Error(`Errore nell'aggiornamento del post: ${response.statusText}`);
         }
-
-        const data = await response.json();
+        return response.json();
+      })
+      .then((data) => {
         console.log('Post aggiornato con successo:', data);
 
         // Dopo l'aggiornamento, aggiorna la lista degli articoli
         setArticlesCalled((prevArticles) =>
-            prevArticles.map((article) =>
-                article.title === title ? { ...article, ...updatedArticle } : article
-            )
+          prevArticles.map((article) =>
+            article.title === title ? { ...article, ...updatedArticle } : article
+          )
         );
-
-    } catch (error) {
+      })
+      .catch((error) => {
         console.error('Errore durante l\'aggiornamento del post:', error);
         alert('Errore durante l\'aggiornamento del post. Riprova.');
-    }
-};
+      });
+  };
 
 
   return (

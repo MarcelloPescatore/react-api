@@ -13,8 +13,6 @@ export default function BlogForm() {
         published: false // Stato per la pubblicazione dell'articolo
     });
 
-    const availableTags = ["Tech", "Lifestyle", "Education", "Entertainment"];
-
     // Funzione per gestire il cambiamento dei valori
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -123,7 +121,6 @@ export default function BlogForm() {
             </div>
             {/* Gestione tags via component ListCheckbox */}
             <ListCheckbox
-                availableTags={availableTags}
                 tags={formData.tags}
                 setTags={(tags) => setFormData({ ...formData, tags })}
             />

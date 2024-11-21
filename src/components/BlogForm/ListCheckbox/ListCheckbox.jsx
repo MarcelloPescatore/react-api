@@ -1,4 +1,4 @@
-export default function ListCheckbox({ availableTags, tags, setTags }) {
+export default function ListCheckbox({ tags, setTags }) {
     const handleChange = (e) => {
         const tagValue = e.target.value;
         if (e.target.checked) {
@@ -7,6 +7,8 @@ export default function ListCheckbox({ availableTags, tags, setTags }) {
             setTags(tags.filter(tag => tag !== tagValue));
         }
     };
+
+    const availableTags = ["Tech", "Lifestyle", "Education", "Entertainment"];
 
     return (
         <ul>
