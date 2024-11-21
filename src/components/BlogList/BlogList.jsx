@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Articles from "./Articles/Articles";
+// import Articles from "./Articles/Articles";
 import ArticlesCalled from "./Articles/ArticlesCalled";
 
-export default function BlogList({ articles, articlesCalled, onDelete, onUpdate }) {
+export default function BlogList({ articlesCalled, onDelete, onUpdate }) {
     const [editingId, setEditingId] = useState(null);
     const [editingData, setEditingData] = useState({});
 
@@ -43,7 +43,7 @@ export default function BlogList({ articles, articlesCalled, onDelete, onUpdate 
 
     return (
         <div className="list">
-            <Articles 
+            {/* <Articles 
                 articles={articles}
                 handleChange={handleChange}
                 handleEdit={handleEdit}
@@ -53,7 +53,7 @@ export default function BlogList({ articles, articlesCalled, onDelete, onUpdate 
                 editingId={editingId}
                 editingData={editingData}
                 onDelete={onDelete}
-            />
+            /> */}
 
             {/* articoli chiamata fetch */}
             <ArticlesCalled 

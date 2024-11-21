@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ListCheckbox from "./ListCheckbox/ListCheckbox"; 
+import ListCheckbox from "./ListCheckbox/ListCheckbox";
 
 export default function BlogForm({ onSubmit }) {
     // Stato unificato con tutti i dati del form
@@ -18,59 +18,64 @@ export default function BlogForm({ onSubmit }) {
     // Funzione per gestire il cambiamento dei valori
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+        setFormData((prevData) => {
 
-        if (type === "checkbox") {
-            // Gestisci il cambiamento dei checkbox (tags)
-            setFormData((prevData) => {
+
+            if (type === "checkbox" && name === "tags") {
+                // Gestisci il cambiamento dei checkbox (tags)
                 const newTags = checked
                     ? [...prevData.tags, value] // Aggiungi tag
                     : prevData.tags.filter((tag) => tag !== value); // Rimuovi tag
                 return { ...prevData, tags: newTags };
-            });
-        } else if (type === "select-one") {
-            // Gestisci il cambiamento del campo "status"
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value
-            }));
-        } else if (type === "checkbox") {
-            // Per il checkbox di "published"
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: checked
-            }));
-        } else {
-            // Gestisci gli altri input
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value
-            }));
-        }
+
+            }
+
+            if (type === "select-one" || type === "checkbox") {
+                // Gestisci il cambiamento del campo "status"
+                return { ...prevData, [name]: type === "checkbox" ? checked : value };
+            }
+            return { ...prevData, [name]: value }
+        })
     };
 
     // Funzione di submit
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.title.trim()) return;
+        try {
+            // Invia i dati al backend
+            const response = await fetch('http://localhost:3002/posts/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-        // Invia i dati al componente genitore
-        onSubmit({
-            id: Date.now(),
-            ...formData
-        });
+            if (!response.ok) {
+                throw new Error('Errore nella risposta del server');
+            }
 
-        // Reset dei campi del form
-        setFormData({
-            title: "",
-            author: "",
-            status: "draft",
-            img: "",
-            content: "",
-            tags: [],
-            published: false
-        });
+            const data = await response.json();
+            console.log('Post salvato con successo:', data);
+
+            // Reset dei campi del form
+            setFormData({
+                title: "",
+                author: "",
+                status: "draft",
+                img: "",
+                content: "",
+                tags: [],
+                published: false
+            });
+
+        } catch (error) {
+            console.error('Errore durante l\'invio dei dati:', error);
+            alert('Errore durante l\'invio del post. Riprova.');
+        }
     };
+
 
     return (
         <form onSubmit={handleSubmit}>
@@ -93,7 +98,7 @@ export default function BlogForm({ onSubmit }) {
                     type="text"
                     name="img"
                     placeholder="Image address"
-                    value={formData.img}
+                    value={"http://localhost:3002/imgs/posts/cracker_barbabietola.jpeg"}
                     onChange={handleChange}
                 />
             </div>
