@@ -1,4 +1,4 @@
-export default function ArticlesCalled({ articlesCalled, handleChange, handleEdit, handleUpdate, handlePublish, setEditingId, editingId, editingData, onDelete  }) {
+export default function ArticlesCalled({ articlesCalled, handleChange, handleEdit, handleUpdate, handlePublish, setEditingId, editingId, editingData, onDelete }) {
     return (
         <>
             {articlesCalled.map((article) => {
@@ -8,21 +8,25 @@ export default function ArticlesCalled({ articlesCalled, handleChange, handleEdi
                         <div className="editing">
                             <input
                                 type="text"
+                                placeholder="Title"
                                 value={editingData.title}
                                 onChange={(e) => handleChange("title", e.target.value)}
                             />
                             <input
                                 type="text"
-                                value={editingData.author}
-                                onChange={(e) => handleChange("author", e.target.value)}
+                                placeholder="slug"
+                                value={editingData.slug}
+                                onChange={(e) => handleChange("slug", e.target.value)}
                             />
                             <input
                                 type="text"
+                                placeholder="image"
                                 value={editingData.image}
                                 onChange={(e) => handleChange("image", e.target.value)}
                             />
                             <input
                                 type="text"
+                                placeholder="content"
                                 value={editingData.content}
                                 onChange={(e) => handleChange("content", e.target.value)}
                             />
@@ -39,7 +43,7 @@ export default function ArticlesCalled({ articlesCalled, handleChange, handleEdi
                         <>
                             <h3>{article.title}</h3>
                             <img src={imageUrl} alt="post image" />
-                            <p>Author: {article.author}</p>
+                            <p>Slug: {article.slug}</p>
                             <p>Status: {article.status}</p>
                             <p>Content: {article.content}</p>
                             <p>Tags: {(article.tags || []).join(', ')}</p>

@@ -5,9 +5,9 @@ export default function BlogForm() {
     // Stato unificato con tutti i dati del form
     const [formData, setFormData] = useState({
         title: "",
-        author: "",
+        slug: "",
         status: "draft",  // Aggiunto lo stato per la pubblicazione
-        img: "",
+        image: "",
         content: "",
         tags: [],  // Array di tags selezionati
         published: false // Stato per la pubblicazione dell'articolo
@@ -90,16 +90,16 @@ export default function BlogForm() {
                 />
                 <input
                     type="text"
-                    name="author"
-                    placeholder="Author"
-                    value={formData.author}
+                    name="slug"
+                    placeholder="slug"
+                    value={formData.slug}
                     onChange={handleChange}
                 />
                 <input
                     type="text"
-                    name="img"
+                    name="image"
                     placeholder="Image address"
-                    value={formData.img}
+                    value={formData.image}
                     onChange={handleChange}
                 />
             </div>

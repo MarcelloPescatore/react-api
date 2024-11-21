@@ -10,8 +10,8 @@ export default function BlogList({ articlesCalled, onDelete, onUpdate }) {
         setEditingId(articlesCalled.id);
         setEditingData({
             title: articlesCalled.title,
-            author: articlesCalled.author,
-            img: articlesCalled.img,
+            slug: articlesCalled.slug,
+            image: articlesCalled.image,
             content: articlesCalled.content,
             status: articlesCalled.status
         });
