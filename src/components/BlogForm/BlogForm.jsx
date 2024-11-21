@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ListCheckbox from "./ListCheckbox/ListCheckbox";
 
-export default function BlogForm({ onSubmit }) {
+export default function BlogForm() {
     // Stato unificato con tutti i dati del form
     const [formData, setFormData] = useState({
         title: "",
@@ -20,27 +20,27 @@ export default function BlogForm({ onSubmit }) {
         const { name, value, type, checked } = e.target;
         setFormData((prevData) => {
 
-
             if (type === "checkbox" && name === "tags") {
                 // Gestisci il cambiamento dei checkbox (tags)
                 const newTags = checked
                     ? [...prevData.tags, value] // Aggiungi tag
                     : prevData.tags.filter((tag) => tag !== value); // Rimuovi tag
-                return { ...prevData, tags: newTags };
+                updatedData = { ...prevData, tags: newTags };
 
             }
 
             if (type === "select-one" || type === "checkbox") {
                 // Gestisci il cambiamento del campo "status"
-                return { ...prevData, [name]: type === "checkbox" ? checked : value };
-            }
-            return { ...prevData, [name]: value }
+                updateData = { ...prevData, [name]: type === "checkbox" ? checked : value };
+            } else { updateData = { ...prevData, [name]: value } }
+
+            updateDataOnServer(updatedData);
+            return updatedData;
         })
     };
 
     // Funzione di submit
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
 
         try {
             // Invia i dati al backend
@@ -98,7 +98,7 @@ export default function BlogForm({ onSubmit }) {
                     type="text"
                     name="img"
                     placeholder="Image address"
-                    value={"http://localhost:3002/imgs/posts/cracker_barbabietola.jpeg"}
+                    value={formData.img}
                     onChange={handleChange}
                 />
             </div>

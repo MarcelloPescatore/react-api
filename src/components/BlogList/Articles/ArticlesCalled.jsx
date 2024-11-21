@@ -1,7 +1,7 @@
-export default function ArticlesCalled({articlesCalled, handleChange, handleEdit, handleUpdate, setEditingId, editingId, editingData, onDelete}) {
+export default function ArticlesCalled({ articlesCalled, handleChange, handleEdit, handleUpdate, handlePublish, setEditingId, editingId, editingData, onDelete  }) {
     return (
         <>
-           {articlesCalled.map((article) => {
+            {articlesCalled.map((article) => {
                 const imageUrl = `http://localhost:3002/imgs/posts/${article.image}`
                 return (<div key={article.id} className="blog-item">
                     {editingId === article.id ? (
@@ -31,7 +31,7 @@ export default function ArticlesCalled({articlesCalled, handleChange, handleEdit
                                 <option value="published">Published</option>
                             </select>
                             <div className="buttons-edit">
-                                <button onClick={() => handleUpdate(article.id)}>Save</button>
+                                <button onClick={() => handleUpdate(article.title)}>Save</button>
                                 <button onClick={() => setEditingId(null)}>Cancel</button>
                             </div>
                         </ div>
@@ -44,12 +44,16 @@ export default function ArticlesCalled({articlesCalled, handleChange, handleEdit
                             <p>Content: {article.content}</p>
                             <p>Tags: {(article.tags || []).join(', ')}</p>
 
-
-
                             <div className="buttons">
                                 <button onClick={() => handleEdit(article)}>Edit</button>
                                 {/* cancella la modifica */}
-                                <button onClick={() => onDelete(article.id)}>Delete</button>
+                                <button onClick={() => onDelete(article.title)}>Delete</button>
+                                {/* Bottone per cambiare stato da 'draft' a 'published' */}
+                                {article.status === "draft" && (
+                                    <button className="publish" onClick={() => handlePublish(article.title)}>
+                                        Publish
+                                    </button>
+                                )}
                             </div>
                         </>
                     )}

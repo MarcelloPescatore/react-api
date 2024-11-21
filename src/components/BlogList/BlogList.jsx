@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-// import Articles from "./Articles/Articles";
 import ArticlesCalled from "./Articles/ArticlesCalled";
 
 export default function BlogList({ articlesCalled, onDelete, onUpdate }) {
     const [editingId, setEditingId] = useState(null);
     const [editingData, setEditingData] = useState({});
 
-    const handleEdit = (article) => {
+    const handleEdit = (articlesCalled) => {
         // Imposto l'articolo in modifica e precompila i dati
-        setEditingId(article.id);
+        setEditingId(articlesCalled.id);
         setEditingData({
-            title: article.title,
-            author: article.author,
-            img: article.img,
-            content: article.content,
-            status: article.status
+            title: articlesCalled.title,
+            author: articlesCalled.author,
+            img: articlesCalled.img,
+            content: articlesCalled.content,
+            status: articlesCalled.status
         });
     };
 
@@ -26,35 +25,23 @@ export default function BlogList({ articlesCalled, onDelete, onUpdate }) {
         }));
     };
 
-    const handleUpdate = (id) => {
+    const handleUpdate = (title) => {
         // Salva la modifica
-        onUpdate(id, editingData);
+        onUpdate(title, editingData);
         // Esce dalla modalità modifica
         setEditingId(null);
     };
 
-    const handlePublish = (id) => {
-        const articleToUpdate = articles.find(article => article.id === id);
+    const handlePublish = (title) => {
+        const articleToUpdate = articlesCalled.find(article => article.title === title);
         if (articleToUpdate.status === "draft") {
             // Cambia lo stato a 'published'
-            onUpdate(id, { status: "published" });
+            onUpdate(title, { status: "published" });
         }
     };
 
     return (
         <div className="list">
-            {/* <Articles 
-                articles={articles}
-                handleChange={handleChange}
-                handleEdit={handleEdit}
-                handleUpdate={handleUpdate}
-                setEditingId={setEditingId}
-                handlePublish={handlePublish}
-                editingId={editingId}
-                editingData={editingData}
-                onDelete={onDelete}
-            /> */}
-
             {/* articoli chiamata fetch */}
             <ArticlesCalled 
                 articlesCalled={articlesCalled} 
@@ -62,6 +49,7 @@ export default function BlogList({ articlesCalled, onDelete, onUpdate }) {
                 handleEdit={handleEdit} 
                 handleUpdate={handleUpdate} 
                 setEditingId={setEditingId} 
+                handlePublish={handlePublish}
                 editingId={editingId} 
                 editingData={editingData} 
                 onDelete={onDelete} 
