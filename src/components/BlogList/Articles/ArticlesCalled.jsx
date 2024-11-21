@@ -18,8 +18,8 @@ export default function ArticlesCalled({ articlesCalled, handleChange, handleEdi
                             />
                             <input
                                 type="text"
-                                value={editingData.img}
-                                onChange={(e) => handleChange("img", e.target.value)}
+                                value={editingData.image}
+                                onChange={(e) => handleChange("image", e.target.value)}
                             />
                             <input
                                 type="text"

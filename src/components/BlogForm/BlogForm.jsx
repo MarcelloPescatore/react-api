@@ -19,6 +19,7 @@ export default function BlogForm() {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prevData) => {
+            let updatedData = { ...prevData }; 
 
             if (type === "checkbox" && name === "tags") {
                 // Gestisci il cambiamento dei checkbox (tags)
@@ -27,16 +28,16 @@ export default function BlogForm() {
                     : prevData.tags.filter((tag) => tag !== value); // Rimuovi tag
                 updatedData = { ...prevData, tags: newTags };
 
+            } else if (type === "checkbox") {
+                // Aggiorna i checkbox generici
+                updatedData = { ...prevData, [name]: checked };
+            } else {
+                // Aggiorna gli input di tipo testo e select
+                updatedData = { ...prevData, [name]: value };
             }
 
-            if (type === "select-one" || type === "checkbox") {
-                // Gestisci il cambiamento del campo "status"
-                updateData = { ...prevData, [name]: type === "checkbox" ? checked : value };
-            } else { updateData = { ...prevData, [name]: value } }
-
-            updateDataOnServer(updatedData);
-            return updatedData;
-        })
+            return updatedData; // Ritorna i dati aggiornati
+        });
     };
 
     // Funzione di submit
